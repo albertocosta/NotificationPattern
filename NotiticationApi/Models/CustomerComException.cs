@@ -2,24 +2,24 @@
 
 namespace NotiticationApi.Models
 {
-    public class Customer
+    public class CustomerComException
     {
         public string Name { get; }
         public string Email { get; }
 
         //To swagger
-        public Customer()
+        public CustomerComException()
         {}
 
-        public Customer(string name, string email)
+        public CustomerComException(string name, string email)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new InvalidOperationException("Name cannot be empty");
+                throw new InvalidOperationException("Name cannot be empty.");
             }
             if (!email.Contains("@"))
             {
-                throw new InvalidOperationException("Invalid email");
+                throw new InvalidOperationException("Invalid email.");
             }
         }
     }

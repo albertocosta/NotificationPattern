@@ -7,10 +7,24 @@ namespace NotiticationApi.Controllers
     [ApiController]
     public class CostumerController : ControllerBase
     {
-        [HttpPost]
-        public void Post(Customer customer)
+        [HttpPost("CustomerComException")]
+        public void PostException(CustomerComException customer)
         {
-            var c = new Customer("", "");
+            var c = new CustomerComException("", "");
+        }
+
+        [HttpPost("CustomerComNotification")]
+        public IActionResult PostNotification(CustomerComNotification customer)
+        {
+            var c = new CustomerComNotification("", "");
+            //TODO: Tratar os dados, talvez no ControllerBase
+            if (c.Invalid)
+            {
+                var m = c.ValidationResult;
+                return BadRequest(m.Errors);
+            }
+
+            return Ok(c);
         }
     }
 }
