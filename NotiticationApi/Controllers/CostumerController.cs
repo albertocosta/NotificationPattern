@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NotiticationApi.Models;
+using NotiticationApi.Notification;
 
 namespace NotiticationApi.Controllers
 {
@@ -7,6 +8,12 @@ namespace NotiticationApi.Controllers
     [ApiController]
     public class CostumerController : ControllerBase
     {
+        private readonly NotificationContext _notificationContext;
+        public CostumerController(NotificationContext notificationContext)
+        {
+            _notificationContext = notificationContext;
+        }
+
         [HttpPost("CustomerComException")]
         public void PostException(CustomerComException customer)
         {
@@ -17,11 +24,9 @@ namespace NotiticationApi.Controllers
         public IActionResult PostNotification(CustomerComNotification customer)
         {
             var c = new CustomerComNotification("", "");
-            //TODO: Tratar os dados, talvez no ControllerBase
             if (c.Invalid)
             {
-                var m = c.ValidationResult;
-                return BadRequest(m.Errors);
+                _notificationContext.AddNotifications(c.ValidationResult);
             }
 
             return Ok(c);
